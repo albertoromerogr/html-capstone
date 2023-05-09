@@ -42,7 +42,7 @@ const SpecialsCard = () => {
     const order = menu.order;
 
     return (
-      <div>
+      <div key={title}>
         <div className="special-card-container">
           <div className="image-container">
             <img src={image} alt="Special dessert" />

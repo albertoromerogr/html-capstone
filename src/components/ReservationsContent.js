@@ -137,7 +137,11 @@ function ReservationsContent() {
                 />
                 <span className="non-valid">{formError.date}</span>
               </div>
-              <button className="reserve-btn" type="submit">
+              <button
+                className="reserve-btn"
+                type="submit"
+                data-testid="buttonSubmit"
+              >
                 Reserve
               </button>
             </fieldset>
