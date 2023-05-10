@@ -3,6 +3,7 @@ import "./styles/ReservationsContent.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useState } from "react";
 
 const schema = yup.object({
   name: yup.string().required("Required"),
@@ -12,7 +13,23 @@ const schema = yup.object({
   date: yup.string().required("Select date and time"),
 });
 
-function Form() {
+function Form(props) {
+  const [date, setDate] = useState("");
+  const [finalTime, setFinalTime] = useState(
+    props.availableTimes.map((times) => <option>{times}</option>)
+  );
+
+  function handleDateChange(e) {
+    e.preventDefault();
+    setDate(e.target.value);
+    var stringify = e.target.value;
+    const date = new Date(stringify);
+    console.log("updateTimes call", date);
+    props.updateTimes(date);
+
+    setFinalTime(props.availableTimes.map((times) => <option>{times}</option>));
+  }
+
   const {
     handleSubmit,
     register,
@@ -59,7 +76,6 @@ function Form() {
           <span className="error-message">{errors.telephone?.message}</span>
         </div>
 
-        {/*<div className="guestsdate">*/}
         <div className="field occasion">
           <label htmlFor="occasion">Occasion (optional)</label>
           <div className="options">
@@ -84,8 +100,24 @@ function Form() {
 
         <div className="field">
           <label htmlFor="date">Date & Time</label>
-          <input type="datetime-local" name="date" {...register("date")} />
+          <input
+            type="date"
+            name="datge"
+            id="date"
+            required
+            value={date}
+            onChange={handleDateChange}
+          ></input>
+          {/* <input type="date" name="date" {...register("date")} /> */}
           <span className="error-message">{errors.date?.message}</span>
+        </div>
+        <div>
+          <div className="field">
+            <label htmlFor="time">Select Time</label> <br></br>
+            <select id="time" required>
+              {finalTime}
+            </select>
+          </div>
         </div>
         <button className="reserve-btn" type="submit">
           Reserve
